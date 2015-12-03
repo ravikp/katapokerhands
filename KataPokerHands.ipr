@@ -195,7 +195,7 @@
     </option>
   </component>
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="" />
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
   </component>
   <component name="libraryTable">
     <library name="SBT: org.scala-lang.modules:scala-parser-combinators_2.11:1.0.3:jar">

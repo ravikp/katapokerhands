@@ -30,3 +30,8 @@ object Card {
     "S" -> CardType.Spade
   )
 }
+
+object CardType extends Enumeration {
+  type Suite = Value
+  val Club, Diamond, Heart, Spade = Value
+}

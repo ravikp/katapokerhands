@@ -9,4 +9,5 @@ val scalaTest = "org.scalatest" %% "scalatest" % "2.2.4" % "test"
 
 libraryDependencies ++= Seq(parserCombinator, scalaTest)
 
-scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation")
+scalacOptions ++= Seq( "-unchecked", "-deprecation" )
+
