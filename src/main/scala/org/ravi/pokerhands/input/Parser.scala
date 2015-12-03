@@ -10,8 +10,8 @@ import scala.util.parsing.input.CharSequenceReader
  */
 
 object ParseInput extends JavaTokenParsers {
-  def lineItem:Parser[List[Player]] = rep(hand)
-  def hand = (playername <~ ":") ~ cards ^^ {
+  def lineItem:Parser[List[Player]] = rep(player)
+  def player:Parser[Player] = (playername <~ ":") ~ cards ^^ {
     case (playername ~ cards) => Player(playername, cards)
   }
   def playername = "[a-zA-Z]+".r

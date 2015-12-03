@@ -1,9 +1,8 @@
 package org.ravi.pokerhands.rules
 
 import org.ravi.pokerhands.models.{Card, Player, Result}
-import org.ravi.pokerhands.rules.GameConstants._
 
-object StraightFlush extends BaseRule {
+object StraightFlush extends BaseRule with Straight{
 
   def isDefinedAt(players: (Player, Player)): Boolean = {
     val (player1, player2) = players
@@ -18,7 +17,7 @@ object StraightFlush extends BaseRule {
 
   private val MESSAGE = "with straight flush"
 
-  private def canEvaluate(player1: Player, player2: Player): Boolean = {
+  override def canEvaluate(player1: Player, player2: Player): Boolean = {
     IsStraightFlush(player1) || IsStraightFlush(player2)
   }
 
@@ -33,27 +32,22 @@ object StraightFlush extends BaseRule {
   }
 
   private def IsStraightFlush(player: Player): Boolean = {
-    val cards = player.sorted
-    val cardValues = cards map (_.value)
-
-    //sum of differences between current and next element when elements are
-    //sequence will be one less than the number of elements
-
-    val sumOfCards = cardValues.sliding(2).map(x => x(0) - x(1)).sum
-    val result = sumOfCards == TOTAL_CARDS_IN_HAND - 1 && cards.groupBy(x => x.suite).size == 1
-
-    result
+    IsStraight(player) && IsFlush(player)
   }
-  
+
+  def IsFlush(player: Player):Boolean = {
+    player.cards.groupBy(x => x.suite).size == 1
+  }
+
   private def resolveTie(player1: Player, player2: Player):Player = {
     val (cards1, cards2) = (
       player1.sorted,
       player2.sorted)
 
-    val cardOrdering = Card.cardOrderingBasedOnValue
+    val cardOrdering = implicitly[Ordering[Card]]
 
-    def internalResolveTie(twoHands: Seq[(Card, Card)]):Player = {
-      twoHands match {
+    def internalResolveTie(players: Seq[(Card, Card)]):Player = {
+      players match {
         case (card1, card2) :: tail if cardOrdering.gt(card1, card2) => player1
         case (card1, card2) :: tail if cardOrdering.lt(card1, card2) => player2
         case (card1, card2) :: tail if cardOrdering.eq(card1, card2) => internalResolveTie(tail)
