@@ -1,4 +1,4 @@
-package org.ravi.pokerhands
+package org.ravi.pokerhands.ideas
 
 import org.scalatest._
 
@@ -7,7 +7,7 @@ import org.scalatest._
  */
 class PartialFunctionTest extends FlatSpec with ShouldMatchers {
 
-  it should "compose functions to test " in {
+  "functions composed together" should "be treated as single function" in {
         val composed = CanAcceptLowercaseOnly orElse CanAcceptUppercaseOnly
         composed("ravi", "kumar") should be("KUMAR")
   }
@@ -30,3 +30,4 @@ class PartialFunctionTest extends FlatSpec with ShouldMatchers {
     def apply(data: (String, String)) = data._2.toLowerCase
   }
 }
+
